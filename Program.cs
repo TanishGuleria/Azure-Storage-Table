@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace AzureASATables
 {
@@ -15,16 +14,28 @@ namespace AzureASATables
 
             employees.CreateIfNotExistsAsync();
 
-            EmployeeEntity employees1 = new EmployeeEntity("tanish", "guleria");
+            EmployeeEntity employees1 = new EmployeeEntity("manik", "guleria");
 
 
             TableOperation inserttop = TableOperation.Insert(employees1);
             employees.ExecuteAsync(inserttop).GetAwaiter().GetResult();
+
+
+            TableQuery<EmployeeEntity> query = new TableQuery<EmployeeEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,"staff"));
+            foreach (EmployeeEntity i in employees.ExecuteQuery(query))
+            {
+                Console.WriteLine(i.RowKey);
+               
+            }
         }
     }
 
     public class EmployeeEntity : TableEntity
     {
+        public EmployeeEntity()
+        {
+
+        }
         public EmployeeEntity( string firstname , string lastname )
         {
             this.PartitionKey = "staff";

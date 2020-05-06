@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="microsoft.azure.cosmos.table" Version="1.0.7" />
     <PackageReference Include="windowsazure.storage" Version="9.3.3" />
   </ItemGroup>
 
